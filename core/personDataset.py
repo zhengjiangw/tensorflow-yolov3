@@ -14,10 +14,11 @@ class PersonDataset(Dataset):
     self.generate_txt_from_json()
     return super.load_annotations(dataset_type)
   
+  
   def generate_txt_from_json(self):
     with open(cfg.TRAIN.ANNOT_PATH, "r") as f:
       doc = json.loads(f.read())
-    
+  
     lines = []
     annotations = doc['annotations']
     for img_info in annotations:
@@ -25,7 +26,7 @@ class PersonDataset(Dataset):
       if anno_type != 'bbox':
         continue
       img_data = ""
-      img_path = img_info['name']
+      img_path = img_info['name'].split("/")[2]
       img_annos = img_info['annotation']
       img_data = img_data + img_path + " "
       for img_anno in img_annos:
